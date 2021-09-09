@@ -1,10 +1,10 @@
 {
   "name": "k8s-deploy-cli",
-  "version": "0.0.1",
-  "main": "index.js",
+  "version": "0.0.2",
+  "main": "/dist/cli.js",
   "license": "MIT",
   "bin": {
-    "kdc": "cli.js"
+    "kdc": "/dist/cli.js"
   },
   "devDependencies": {
     "@types/colors": "^1.2.1",
