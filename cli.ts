@@ -4,8 +4,10 @@ import inquirer from 'inquirer';
 import colors from 'colors';
 import { handleK8sConfigFiles } from '.';
 
-// program
-//   .version(pkg.version)
+program
+  .version(pkg.version, '-v, --version')
+  .parse(process.argv);
+
 let projectOwnership: 'chainx' | 'coming';
 
 let appName: string;
