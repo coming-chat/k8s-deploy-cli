@@ -1,8 +1,9 @@
+#!/usr/bin/env node
+
 import { program } from 'commander';
 import pkg from './package.json';
 import inquirer from 'inquirer';
-import colors from 'colors';
-import { handleK8sConfigFiles } from '.';
+import { handleK8sConfigFiles } from './index';
 
 program
   .version(pkg.version, '-v, --version')

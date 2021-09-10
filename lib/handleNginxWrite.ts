@@ -1,5 +1,5 @@
 import fs from 'fs';
-import writeTool from '../helper/writeTool';
+import { writeTool } from '../help/help';
 
 export const nginxWriter = fs.createWriteStream('nginx.config');
 

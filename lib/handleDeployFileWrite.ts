@@ -1,8 +1,7 @@
-import writeTool from '../helper/writeTool';
 import fs from 'fs';
 import path from 'path';
 import { deployfileData } from '../utils/deployfileData';
-import { isProd } from '../helper/help';
+import { isProd, writeTool } from '../help/help';
 
 const rootDir = process.cwd()
 

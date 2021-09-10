@@ -1,6 +1,5 @@
 import fs from 'fs';
-import { isProd } from '../helper/help';
-import writeTool from '../helper/writeTool';
+import { isProd, writeTool } from '../help/help';
 
 const createData = (namespace: string, appName: string, githubUrl: string, env: string): string => {
   const APP_NAME = isProd(env) ? `${appName}-prod`: `${appName}-pre`

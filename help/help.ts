@@ -1,4 +1,8 @@
-import { WriteStream} from 'fs'
+import { WriteStream } from "fs";
+
+const isProd = (env: string): boolean => {
+  return env === 'prod'
+}
 
 const writeTool = (writer: WriteStream, data: string, name?: string) => {
   let ok: boolean;
@@ -14,4 +18,7 @@ const writeTool = (writer: WriteStream, data: string, name?: string) => {
   }
 }
 
-export default writeTool
+export {
+  isProd,
+  writeTool
+}

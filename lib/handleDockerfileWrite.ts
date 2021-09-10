@@ -1,6 +1,5 @@
 import fs from 'fs';
-import { isProd } from '../helper/help';
-import writeTool from '../helper/writeTool';
+import { isProd, writeTool } from '../help/help';
 import { dockerfileData } from '../utils/dockerfileData';
 
 const createData = (packagedPath: string, env: 'dev' | 'prod', buildScript: string): string => {
