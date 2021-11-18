@@ -6,7 +6,7 @@ export const dockerfileData = 'FROM node:14.15.0 as builder\n' +
   'COPY . ./\n' +
   'RUN yarn install\n' +
   'ENV REACT_APP_API_ENV=pre\n' +
-  'RUN yarn run build;exit 0\n' +
+  'RUN yarn run build;\n' +
   '\n' +
   '# docker in docker 安装nginx镜像暴露80端口\n' +
   '\n' +

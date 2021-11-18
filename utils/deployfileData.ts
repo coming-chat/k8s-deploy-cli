@@ -37,7 +37,7 @@ export const deployfileData = 'kind: Deployment\n' +
   '          resources: {}\n' +
   '          terminationMessagePath: /dev/termination-log\n' +
   '          terminationMessagePolicy: File\n' +
-  '          imagePullPolicy: IfNotPresent\n' +
+  '          imagePullPolicy: Always\n' +
   '      restartPolicy: Always\n' +
   '      terminationGracePeriodSeconds: 30\n' +
   '      dnsPolicy: ClusterFirst\n' +
