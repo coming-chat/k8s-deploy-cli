@@ -16,7 +16,8 @@ let githubUrl: string;
 let namespaceInJenkinsFile: string;
 
 //dockerfile
-let buildScript: string;
+let buildScriptInPre: string;
+let buildScriptInProd: string
 let packagedPath: string;
 
 //deploy
@@ -65,21 +66,36 @@ const askForGithubUrl = () => {
     ])
     .then((answer) => {
       githubUrl = JSON.parse(JSON.stringify(answer)).githubUrl;
-      askForBuildScript();
+      askForBuildScriptInPre();
     });
 };
 
-const askForBuildScript = () => {
+const askForBuildScriptInPre = () => {
   inquirer
     .prompt([
       {
         type: 'input',
         name: 'buildScript',
-        message: '请输入项目的 build 命令：',
+        message: '请输入项目在 pre 环境下的 build 命令：',
       }
     ])
     .then((answer) => {
-      buildScript = JSON.parse(JSON.stringify(answer)).buildScript;
+      buildScriptInPre = JSON.parse(JSON.stringify(answer)).buildScript;
+      askForBuildScriptInProd();
+    });
+};
+
+const askForBuildScriptInProd = () => {
+  inquirer
+    .prompt([
+      {
+        type: 'input',
+        name: 'buildScript',
+        message: '请输入项目在 prod 环境下的 build 命令：',
+      }
+    ])
+    .then((answer) => {
+      buildScriptInProd = JSON.parse(JSON.stringify(answer)).buildScript;
       askForPackagedPath();
     });
 };
@@ -116,7 +132,8 @@ const askForHasEnvConfigName = () => {
           appName,
           githubUrl,
           namespaceInJenkinsFile,
-          buildScript,
+          buildScriptInPre,
+          buildScriptInProd,
           packagedPath,
           metadataNamespace,
           envConfigName
@@ -140,7 +157,8 @@ const askForEnvConfigName = () => {
         appName,
         githubUrl,
         namespaceInJenkinsFile,
-        buildScript,
+        buildScriptInPre,
+        buildScriptInProd,
         packagedPath,
         metadataNamespace,
         envConfigName

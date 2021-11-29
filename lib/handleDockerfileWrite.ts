@@ -15,9 +15,9 @@ const handleDockerfileWrite = (env: 'prod' | 'dev', buildScript: string, package
   writeTool(writer, data, 'Dockerfile')
 }
 
-const handleDockerFiles = (buildScript: string, packagedPath: string) => {
-  handleDockerfileWrite('dev', buildScript, packagedPath);
-  handleDockerfileWrite('prod', buildScript, packagedPath);
+const handleDockerFiles = (buildScriptInPre: string, buildScriptInProd: string, packagedPath: string) => {
+  handleDockerfileWrite('dev', buildScriptInPre, packagedPath);
+  handleDockerfileWrite('prod', buildScriptInProd, packagedPath);
 }
 
 export default handleDockerFiles

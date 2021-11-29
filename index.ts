@@ -7,7 +7,8 @@ export const handleK8sConfigFiles = (
   appName: string,
   githubUrl: string,
   namespaceInJenkinsFile: string,
-  buildScript: string,
+  buildScriptInPre: string,
+  buildScriptInProd: string,
   packagedPath: string,
   metadataNamespace: string,
   envConfigName?: string,
@@ -19,7 +20,7 @@ export const handleK8sConfigFiles = (
   handleJenkinsFiles(namespaceInJenkinsFile, appName, githubUrl)
 
 //生成并写入 Dockerfile
-  handleDockerFiles(buildScript, packagedPath)
+  handleDockerFiles(buildScriptInPre, buildScriptInProd, packagedPath)
 
 //生成并写入 deploy 文件
   handleDeployFiles(appName, metadataNamespace, envConfigName)
