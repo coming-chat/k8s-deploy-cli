@@ -13,9 +13,8 @@ const createData = (
 ) => {
   let deployfileData2: string;
   let resultDomainName: string
-
   const containersName = isProd(env) ? 'container-api-prod' : 'container-api-pre';
-  const ingressName = domainName.replace(/\./g, '-')
+
   if (envConfig) {
     deployfileData2 = deployfileData.replace('envFrom:\n' +
       '            - configMapRef:\n' +
@@ -32,10 +31,11 @@ const createData = (
   } else {
     resultDomainName = domainName.replace('.', '-pre.')
   }
+  const ingressName = resultDomainName.replace(/\./g, '-')
 
   return deployfileData2
-    .replace(/APP_NAME/g, appName)
-    .replace(/NAME_SPACE/g, `namespace: front-${env}`)
+    .replace(/: APP_NAME/g, `: ${appName}`)
+    .replace(/NAME_SPACE/g, `front-${env}`)
     .replace(/DOMAIN_NAME/g, resultDomainName)
     .replace(/INGRESS_NAME/g, ingressName)
     .replace('container-api-pre', containersName);

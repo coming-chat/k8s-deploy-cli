@@ -12,7 +12,6 @@ export const deployfileData = 'kind: Deployment\n' +
   '      app: APP_NAME\n' +
   '  template:\n' +
   '    metadata:\n' +
-  '      creationTimestamp: null\n' +
   '      labels:\n' +
   '        app: APP_NAME\n' +
   '    spec:\n' +
@@ -62,7 +61,7 @@ export const deployfileData = 'kind: Deployment\n' +
   '            timeoutSeconds: 1\n' +
   '            periodSeconds: 10\n' +
   '            successThreshold: 1\n' +
-  '            failureThreshold: 3' +
+  '            failureThreshold: 3\n' +
   '          terminationMessagePath: /dev/termination-log\n' +
   '          terminationMessagePolicy: File\n' +
   '          imagePullPolicy: Always\n' +

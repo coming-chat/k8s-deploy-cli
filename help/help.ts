@@ -7,9 +7,9 @@ const isProd = (env: string): boolean => {
 }
 
 const writeTool = (writer: WriteStream, data: string, path: string) => {
-  if (fs.existsSync(path)) {
-    rimraf.sync(path)
-  }
+  // if (fs.existsSync(path)) {
+  //   rimraf.sync(path)
+  // }
 
   let ok: boolean;
   console.log(`开始写入 ${path}`);
