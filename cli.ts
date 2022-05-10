@@ -9,11 +9,8 @@ program
   .version(pkg.version, '-v, --version')
   .parse(process.argv);
 
-let projectOwnership: 'chainx' | 'coming';
-
 let appName: string;
 let githubUrl: string;
-let namespaceInJenkinsFile: string;
 
 //dockerfile
 let buildScriptInPre: string;
@@ -21,24 +18,8 @@ let buildScriptInProd: string
 let packagedPath: string;
 
 //deploy
+let domainName: string
 let envConfigName: string;
-let metadataNamespace: string;
-
-inquirer
-  .prompt([
-    {
-      type: 'list',
-      name: 'projectOwnership',
-      message: '需要生成 chainx 还是 coming 的项目呢？',
-      choices: ['chainx', 'coming']
-    }
-  ])
-  .then((answer) => {
-    projectOwnership = JSON.parse(JSON.stringify(answer)).projectOwnership;
-    namespaceInJenkinsFile = projectOwnership === 'chainx' ? 'chainxorg' : 'comingweb3';
-    metadataNamespace = projectOwnership === 'chainx' ? 'chainx-' : '';
-    askForAppName();
-  });
 
 const askForAppName = () => {
   inquirer
@@ -111,6 +92,21 @@ const askForPackagedPath = () => {
     ])
     .then((answer) => {
       packagedPath = JSON.parse(JSON.stringify(answer)).packagedPath;
+      askForDomainName();
+    });
+};
+
+const askForDomainName = () => {
+  inquirer
+    .prompt([
+      {
+        type: 'input',
+        name: 'domainName',
+        message: '请输入项目的域名：',
+      }
+    ])
+    .then((answer) => {
+      domainName = JSON.parse(JSON.stringify(answer)).domainName;
       askForHasEnvConfigName();
     });
 };
@@ -131,11 +127,10 @@ const askForHasEnvConfigName = () => {
         handleK8sConfigFiles(
           appName,
           githubUrl,
-          namespaceInJenkinsFile,
           buildScriptInPre,
           buildScriptInProd,
           packagedPath,
-          metadataNamespace,
+          domainName,
           envConfigName
         );
       }
@@ -156,12 +151,13 @@ const askForEnvConfigName = () => {
       handleK8sConfigFiles(
         appName,
         githubUrl,
-        namespaceInJenkinsFile,
         buildScriptInPre,
         buildScriptInProd,
         packagedPath,
-        metadataNamespace,
+        domainName,
         envConfigName
       );
     });
 };
+
+askForAppName();

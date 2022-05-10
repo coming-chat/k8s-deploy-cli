@@ -1,7 +1,7 @@
 import fs from 'fs';
 import { isProd, writeTool } from '../help/help';
 
-const createData = (namespace: string, appName: string, githubUrl: string, env: string): string => {
+const createData = (appName: string, githubUrl: string, env: string): string => {
   const APP_NAME = isProd(env) ? `${appName}-prod`: `${appName}-pre`
   const dockerfileName = isProd(env) ? 'Dockerfile.prod': 'Dockerfile.dev'
   const deployFile = isProd(env) ?
@@ -20,7 +20,7 @@ pipeline {
     DOCKER_CREDENTIAL_ID = 'dockerhub-id'
     KUBECONFIG_CREDENTIAL_ID = 'admin'
     REGISTRY = 'docker.io'
-    DOCKERHUB_NAMESPACE = '${namespace}'
+    DOCKERHUB_NAMESPACE = 'comingweb3'
     APP_NAME = '${APP_NAME}'
   }
   parameters {
@@ -42,7 +42,7 @@ pipeline {
         container('base') {
           withCredentials([usernamePassword(credentialsId : "$DOCKER_CREDENTIAL_ID" ,passwordVariable : 'DOCKER_PASSWORD' ,usernameVariable : 'DOCKER_USERNAME' ,)]) {
             sh 'echo "$DOCKER_PASSWORD" | docker login $REGISTRY -u "$DOCKER_USERNAME" --password-stdin'
-            sh 'docker build -f ${dockerfileName} -t $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:$BUILD_NUMBER .'
+            sh 'docker build --network host -f ${dockerfileName} -t $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:$BUILD_NUMBER .'
             sh 'docker push $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:$BUILD_NUMBER'
           }
 
@@ -78,25 +78,24 @@ pipeline {
 }
 
 const handleJenkinsfileWrite = (
-  namespace: string,
   appName: string,
   githubUrl: string,
   env: 'pre' | 'prod'
 ) => {
   const postfix = isProd(env) ? 'Prod': 'Pre';
-  const writer = fs.createWriteStream(`jenkinsfileOn${postfix}`);
+  const path = `jenkinsfileOn${postfix}`
+  const writer = fs.createWriteStream(path);
   const data = createData(
-    namespace,
     appName,
     githubUrl,
     env,
   )
-  writeTool(writer, data, 'jenkinsfile')
+  writeTool(writer, data, path)
 }
 
-const handleJenkinsFiles = (namespace: string, appName: string, githubUrl: string) => {
-  handleJenkinsfileWrite(namespace, appName, githubUrl, 'pre');
-  handleJenkinsfileWrite(namespace, appName, githubUrl, 'prod');
+const handleJenkinsFiles = (appName: string, githubUrl: string) => {
+  handleJenkinsfileWrite(appName, githubUrl, 'pre');
+  handleJenkinsfileWrite(appName, githubUrl, 'prod');
 }
 
 

@@ -1,10 +1,12 @@
 import fs from 'fs';
 import { writeTool } from '../help/help';
 
-export const nginxWriter = fs.createWriteStream('nginx.config');
+const path = 'nginx.config'
+export const nginxWriter = fs.createWriteStream(path);
 
 export const nginxData = 'server {\n' +
   '    listen       ${PORT:-80};\n' +
+  '    listen       [::]:${PORT:-80}\n' +
   '    server_name  _;\n' +
   '\n' +
   '    root /usr/share/nginx/html;\n' +
@@ -34,7 +36,7 @@ export const nginxData = 'server {\n' +
   '}\n';
 
 const handleNginxFile = () => {
-  writeTool(nginxWriter, nginxData, 'nginx.config');
+  writeTool(nginxWriter, nginxData, path);
 };
 
 export default handleNginxFile;

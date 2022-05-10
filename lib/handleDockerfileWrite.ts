@@ -10,9 +10,10 @@ const createData = (packagedPath: string, env: 'dev' | 'prod', buildScript: stri
 }
 
 const handleDockerfileWrite = (env: 'prod' | 'dev', buildScript: string, packagedPath: string) => {
-  const writer = fs.createWriteStream(`Dockerfile.${env}`);
+  const path = `Dockerfile.${env}`
+  const writer = fs.createWriteStream(path);
   const data = createData(packagedPath, env, buildScript)
-  writeTool(writer, data, 'Dockerfile')
+  writeTool(writer, data, path)
 }
 
 const handleDockerFiles = (buildScriptInPre: string, buildScriptInProd: string, packagedPath: string) => {

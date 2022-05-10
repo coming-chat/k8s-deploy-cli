@@ -5,9 +5,17 @@ import { isProd, writeTool } from '../help/help';
 
 const rootDir = process.cwd()
 
-const createData = (metadataName: string, metadataNamespace: string, env: 'pre' | 'prod', envConfig?: string) => {
-  const containersName = isProd(env) ? 'container-api-prod' : 'container-api-pre';
+const createData = (
+  appName: string,
+  domainName: string,
+  env: 'pre' | 'prod',
+  envConfig?: string
+) => {
   let deployfileData2: string;
+  let resultDomainName: string
+
+  const containersName = isProd(env) ? 'container-api-prod' : 'container-api-pre';
+  const ingressName = domainName.replace(/\./g, '-')
   if (envConfig) {
     deployfileData2 = deployfileData.replace('envFrom:\n' +
       '            - configMapRef:\n' +
@@ -19,19 +27,25 @@ const createData = (metadataName: string, metadataNamespace: string, env: 'pre' 
       '            - configMapRef:\n' +
       '                name: aws-config', '');
   }
+  if (isProd(env)) {
+    resultDomainName = domainName
+  } else {
+    resultDomainName = domainName.replace('.', '-pre.')
+  }
 
   return deployfileData2
-    .replace('name: kusama-slot-front', `name: ${metadataName}`)
-    .replace('namespace: chainx-pre', `namespace: ${metadataNamespace}`)
-    .replace(/app: kusama-slot-front/g, `app: ${metadataName}`)
+    .replace(/APP_NAME/g, appName)
+    .replace(/NAME_SPACE/g, `namespace: front-${env}`)
+    .replace(/DOMAIN_NAME/g, resultDomainName)
+    .replace(/INGRESS_NAME/g, ingressName)
     .replace('container-api-pre', containersName);
 };
 
 const handleDeployFileWrite = (
   appName: string,
-  metadataNamespace: string,
+  domainName: string,
   env: 'pre' | 'prod',
-  envConfig?: string
+  envConfig?: string,
 ) => {
   const hasDeployDir: boolean = fs.existsSync(path.join(rootDir, 'deploy'));
   if(!hasDeployDir){
@@ -42,15 +56,16 @@ const handleDeployFileWrite = (
   }else{
     fs.mkdirSync('deploy/pre')
   }
+  const filePath = `deploy/${env}/deploy-${appName}.yaml`
 
-  const writer = fs.createWriteStream(`deploy/${env}/deploy-${appName}.yaml`);
-  const data = createData(appName, metadataNamespace, env, envConfig)
-  writeTool(writer, data, `${appName}`)
+  const writer = fs.createWriteStream(filePath);
+  const data = createData(appName, domainName, env, envConfig)
+  writeTool(writer, data, filePath)
 };
 
-const handleDeployFiles = (appName: string, metadataNamespace: string, envConfig?: string) => {
-  handleDeployFileWrite(appName, `${metadataNamespace}pre`, 'pre', envConfig);
-  handleDeployFileWrite(appName, `${metadataNamespace}prod`, 'prod', envConfig);
+const handleDeployFiles = (appName: string, domainName: string, envConfig?: string) => {
+  handleDeployFileWrite(appName, domainName, 'pre', envConfig);
+  handleDeployFileWrite(appName, domainName, 'prod', envConfig);
 }
 
 export default handleDeployFiles;
