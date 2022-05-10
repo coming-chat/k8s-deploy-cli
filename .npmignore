@@ -1,8 +1,9 @@
 /lib
-/helper
+/help
 /utils
 /node_modules
 *.ts
 tsconfig.json
+*.log
 /.idea
 /.vscode
