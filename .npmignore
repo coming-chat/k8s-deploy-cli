@@ -4,3 +4,5 @@
 /node_modules
 *.ts
 tsconfig.json
+/.idea
+/.vscode
