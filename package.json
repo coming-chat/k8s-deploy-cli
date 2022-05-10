@@ -1,6 +1,6 @@
 {
   "name": "k8s-deploy-cli",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "main": "dist/cli.js",
   "license": "MIT",
   "bin": {
@@ -23,5 +23,8 @@
   "files": [
     "/dist/*",
     "README.md"
-  ]
+  ],
+  "scripts": {
+    "prepublishOnly": "tsc"
+  }
 }

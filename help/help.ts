@@ -19,7 +19,7 @@ const writeTool = (writer: WriteStream, data: string, path: string) => {
     console.log('写不动了');
     writer.once('drain', () => {
       console.log('可以继续');
-      writeTool(writer, data, name);
+      writeTool(writer, data, path);
     });
   }
 }
