@@ -6,7 +6,7 @@ export const nginxWriter = fs.createWriteStream(path);
 
 export const nginxData = 'server {\n' +
   '    listen       ${PORT:-80};\n' +
-  '    listen       [::]:${PORT:-80}\n' +
+  '    listen       [::]:${PORT:-80};\n' +
   '    server_name  _;\n' +
   '\n' +
   '    root /usr/share/nginx/html;\n' +
