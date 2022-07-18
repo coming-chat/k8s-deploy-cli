@@ -1,4 +1,4 @@
-export const dockerfileData = 'FROM node:14.15.0 as builder\n' +
+export const dockerfileData = 'FROM node:16.15.0 as builder\n' +
 
   'WORKDIR /opt/web\n' +
   '\n' +

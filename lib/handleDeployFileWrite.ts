@@ -30,6 +30,7 @@ const createData = (
     resultDomainName = domainName
   } else {
     resultDomainName = domainName.replace('.', '-pre.')
+      .replace('replicas: 4\n', 'replicas: 1\n')
   }
   const ingressName = resultDomainName.replace(/\./g, '-')
 
