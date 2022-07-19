@@ -1,6 +1,6 @@
 {
   "name": "k8s-deploy-cli",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "main": "dist/cli.js",
   "license": "MIT",
   "bin": {
